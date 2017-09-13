@@ -16,11 +16,11 @@ class List extends Component {
 
     const CustomerComponents = customerList.map( customer => (
       <Customer
-        selectCustomer={selectCustomer}
         key={ customer.id }
         id={ customer.id }
         first={ customer.first }
         last={ customer.last }
+        selectCustomer={selectCustomer}
       />
     ));
 
@@ -29,9 +29,7 @@ class List extends Component {
         {
             <div id="List__namesContainer">
               { CustomerComponents }
-              <CreateCustomer
-              startNewCustomer={startNewCustomer}
-               />
+              <CreateCustomer startNewCustomer={startNewCustomer}/>
             </div>
         }
       </div>

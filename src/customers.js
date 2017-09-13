@@ -13,7 +13,7 @@ export const getCustomer = function(id) {
   })
 }
 
-export const createCustomer = function(customer) {
+export const postCustomer = function(customer) {
   return axios.post(apiURL, customer).then(response => {
     return response.data;
   })

@@ -4,8 +4,11 @@ import './App.css';
 import Header from './Header/Header';
 import List from './List/List';
 import Workspace from './Workspace/Workspace';
-
-import { getCustomerList, createCustomer, getCustomer, updateCustomer, deleteCustomer } from '../customers';
+import { getCustomerList } from '../Customers';
+import { postCustomer } from '../Customers'
+import { getCustomer } from '../Customers'
+import { updateCustomer } from '../Customers'
+import { deleteCustomer } from '../Customers'
 
 class App extends Component {
   constructor() {
@@ -17,37 +20,29 @@ class App extends Component {
       currentCustomer: null
     }
 
-    this.startNewCustomer = this.startNewCustomer.bind(this);
-    this.createCustomer = this.createCustomer.bind(this);
-    this.selectCustomer = this.selectCustomer.bind(this);
-    this.saveEdit = this.saveEdit.bind(this);
-    this.removeCustomer = this.removeCustomer.bind(this);
+    this.startNewCustomer = this.startNewCustomer.bind( this );
+    this.createCustomer = this.createCustomer.bind( this );
+    this.selectCustomer = this.selectCustomer.bind( this );
+    this.saveEdit = this.saveEdit.bind( this );
+
   }
 
   componentDidMount() {
-    getCustomerList().then(list => {
-      console.log(list);
-      this.setState({customerList: list});
+    getCustomerList().then(list => { 
+      this.setState({ customerList: list })
     })
   }
 
   startNewCustomer() {
-    if (this.state.initialLoad) {
-      this.setState({
-        creating: true,
-        initialLoad: false,
-        currentCustomer: null
-      })
-    } else {
-      this.setState({
-        creating: true,
-        currentCustomer: null
-      })
-    }
+    this.setState({
+      creating: true,
+      initialLoad: false,
+      currentCustomer: null
+    })
   }
 
   createCustomer(customer) {
-    createCustomer(customer).then(response => {
+    postCustomer(customer).then(response => {
       getCustomerList().then(list => {
         this.setState({
           initialLoad:true,
@@ -59,18 +54,11 @@ class App extends Component {
   }
 
   selectCustomer(id) {
-    getCustomer(id).then(response=> {
-      if (this.state.initialLoad) {
-        this.setState({
-          currentCustomer: response,
-          initialLoad: false
-        })
-      } else {
-        this.setState({
-          currentCustomer: response
-        })
-      }
-
+    getCustomer(id).then(response => {
+      this.setState({
+        currentCustomer: response,
+        initialLoad: false
+      })
     })
   }
 
@@ -86,8 +74,8 @@ class App extends Component {
   }
 
   removeCustomer(id) {
-    deleteCustomer(id).then(deletedCustomer =>{
-      getCustomerList().then(list =>{
+    deleteCustomer(id).then(deletedCustomer => {
+      getCustomerList().then(list => {
         this.setState({
           customerList: list,
           currentCustomer: null,
